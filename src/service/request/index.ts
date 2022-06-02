@@ -1,21 +1,19 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import { HYRequestConfig, HYInterceptors } from './type'
 import { ElLoading } from 'element-plus'
-import { HYRequestInterceptors, HYRequestConfig } from './type'
 import { ILoadingInstance } from 'element-plus/lib/el-loading/src/loading.type'
-const DEFAULTE_LOADING = false
+
+const DEFAULT_LOADING = false
 class HYRequest {
   instance: AxiosInstance
-  interceptors?: HYRequestInterceptors
+  interceptors?: HYInterceptors
   showLoading: boolean
   loading?: ILoadingInstance
   constructor(config: HYRequestConfig) {
     this.instance = axios.create(config)
-
-    this.showLoading = config.showLoading ?? DEFAULTE_LOADING
-    if (config.interceptors) {
-      this.interceptors = config.interceptors
-    }
-
+    this.interceptors = config.interceptors
+    this.showLoading = config.showLoading ?? DEFAULT_LOADING
+    //传入的拦截器
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
       this.interceptors?.requestInterceptorCatch
@@ -25,42 +23,40 @@ class HYRequest {
       this.interceptors?.responseInterceptorCatch
     )
 
+    // 全部实例的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('所有实例都具有的请求成功拦截')
         if (this.showLoading) {
           this.loading = ElLoading.service({
             fullscreen: true,
-            lock: true,
-            text: '数据请求中。。。。'
+            text: '数据加载中'
           })
         }
+        console.log('所有请求成功拦截')
         return config
       },
       (err) => {
-        console.log('所有实例都具有的请求失败拦截')
+        console.log('所有请求失败拦截')
         return err
       }
     )
-
     this.instance.interceptors.response.use(
       (res) => {
-        if (this.showLoading) {
+        if (this.loading) {
           this.loading?.close()
         }
-        console.log('所有实例都具有的响应成功拦截')
-        const data = res.data
-        return data
+
+        console.log('所有响应成功拦截')
+        return res
       },
       (err) => {
-        console.log('所有实例都具有的响应失败拦截')
+        console.log('所有响应失败拦截')
         return err
       }
     )
   }
-  request<T>(config: HYRequestConfig<T>): Promise<T> {
+  request<T>(config: HYRequestConfig): Promise<T> {
     return new Promise((resolve, reject) => {
-      console.log(config, '>>>>>>')
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors?.requestInterceptor(config)
       }
@@ -68,15 +64,14 @@ class HYRequest {
         .request<any, T>(config)
         .then((res) => {
           resolve(res)
-          this.showLoading = DEFAULTE_LOADING
         })
         .catch((err) => {
           reject(err)
-          this.showLoading = DEFAULTE_LOADING
-          return err
         })
     })
   }
+  get<T>(config: HYRequestConfig): Promise<T> {
+    return this.instance.request({ ...config, method: 'GET' })
+  }
 }
-
 export default HYRequest

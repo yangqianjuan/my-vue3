@@ -7,16 +7,18 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 app.mount('#app')
-hyRequest.request({
+
+hyRequest.get({
   url: '/home/multidata',
-  method: 'GET',
+  // method: 'GET',
   headers: {},
   interceptors: {
     requestInterceptor: (config) => {
-      console.log('单独请求的拦截', config)
+      console.log('单独请求的拦截器')
       if (config.headers) {
-        config.headers['token'] = '1233333'
+        config.headers['token'] = 'xixixixiix'
       }
+
       return config
     }
   }
