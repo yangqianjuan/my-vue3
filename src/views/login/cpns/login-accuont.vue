@@ -13,12 +13,17 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-
+import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
     const account = reactive({})
+    const store = useStore()
+    const loginAccount = () => {
+      store.dispatch('login/loginActions', account)
+    }
     return {
-      account
+      account,
+      loginAccount
     }
   }
 })
