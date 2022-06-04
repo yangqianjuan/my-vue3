@@ -3,9 +3,12 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import { hyRequest } from './service/index'
+import { globalRegister } from './global/index'
+import '@/assets/css/index.css'
 const app = createApp(App)
 app.use(store)
 app.use(router)
+app.use(globalRegister)
 app.mount('#app')
 
 hyRequest.get({
