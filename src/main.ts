@@ -11,18 +11,18 @@ app.use(router)
 app.use(globalRegister)
 app.mount('#app')
 
-hyRequest.get({
-  url: '/home/multidata',
-  // method: 'GET',
-  headers: {},
-  interceptors: {
-    requestInterceptor: (config) => {
-      console.log('单独请求的拦截器')
-      if (config.headers) {
-        config.headers['token'] = 'xixixixiix'
-      }
+// hyRequest.get({
+//   url: '/home/multidata',
+//   // method: 'GET',
+//   headers: {},
+//   interceptors: {
+//     requestInterceptor: (config) => {
+//       console.log('单独请求的拦截器')
+//       if (config.headers) {
+//         config.headers['token'] = 'xixixixiix'
+//       }
 
-      return config
-    }
-  }
-})
+//       return config
+//     }
+//   }
+// })

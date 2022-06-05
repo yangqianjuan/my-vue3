@@ -1,10 +1,10 @@
 interface LState {
-  username: String
-  password: String
+  username: string
+  password: string
 }
 interface RState {
-  username: String
-  password: String
+  username: string
+  password: string
 }
 
 export { LState, RState }

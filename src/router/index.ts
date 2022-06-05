@@ -12,7 +12,15 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/main',
     name: 'main',
-    component: () => import('@/views/main/index.vue')
+    redirect: 'main/role',
+    component: () => import('@/views/main/index.vue'),
+    children: [
+      {
+        path: '/role',
+        name: 'role',
+        component: () => import('@/views/main/role/index.vue')
+      }
+    ]
   }
 ]
 const router = createRouter({

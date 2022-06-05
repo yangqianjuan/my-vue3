@@ -6,7 +6,17 @@ import {
   ElInput,
   ElTabs,
   ElTabPane,
-  ElCheckbox
+  ElCheckbox,
+  ElContainer,
+  ElSlider,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElSubmenu,
+  ElTable,
+  ElTableColumn
 } from 'element-plus'
 import 'element-plus/lib/theme-chalk/base.css'
 
@@ -17,7 +27,17 @@ const components = [
   ElInput,
   ElTabs,
   ElTabPane,
-  ElCheckbox
+  ElCheckbox,
+  ElContainer,
+  ElSlider,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElSubmenu,
+  ElTable,
+  ElTableColumn
 ]
 
 export default function (app: App): void {
